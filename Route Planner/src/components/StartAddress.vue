@@ -68,6 +68,7 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
+  margin-top: 10px;
   margin-bottom: 8px;
   background-color: white;
   border-radius: 20px;
