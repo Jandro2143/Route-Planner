@@ -1,6 +1,6 @@
 <template>
-  <StartAddress/>
-  <EndAddress/>
+  <StartAddress v-model="startAddress" />
+  <EndAddress v-model="endAddress" />
   <br><br>
   <div class="route-text">Enter Route:</div>
   <q-page class="flex">
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import MultipleAddressSearch from 'src/components/MultipleAddressSearch.vue';
 import StartAddress from 'src/components/StartAddress.vue';
 import EndAddress from 'src/components/EndAddress.vue';
@@ -21,14 +21,19 @@ export default defineComponent({
     MultipleAddressSearch,
     StartAddress,
     EndAddress
+  },
+  setup() {
+    const startAddress = ref('');
+    const endAddress = ref('');
+
+    return { startAddress, endAddress };
   }
 })
 </script>
 
 <style>
 .route-text {
-  text-align: center; /* Center the text horizontally */
-  width: 100%; /* Make sure the div takes the full width */
+  text-align: center;
+  width: 100%;
 }
-/* Add any other global styles here */
 </style>

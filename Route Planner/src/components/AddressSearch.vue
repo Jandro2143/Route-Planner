@@ -1,5 +1,12 @@
 <template>
   <div class="search-box">
+    <!-- Star icon that toggles between filled and unfilled -->
+    <img
+      :src="isStarFilled ? filledStar : emptyStar"
+      @click="toggleStar"
+      class="star-icon"
+      alt="Star Rating"
+    />
     <input
       ref="searchInput"
       class="search-input"
@@ -9,11 +16,7 @@
       @input="onInput"
     />
     <!-- Clear text -->
-    <span
-      v-if="searchQuery"
-      class="clear-text"
-      @click="clearSearch"
-    >Clear</span>
+    <span v-if="searchQuery" class="clear-text" @click="clearSearch">Clear</span>
   </div>
 </template>
 
@@ -24,6 +27,9 @@ export default {
     return {
       searchQuery: "",
       autocomplete: null,
+      isStarFilled: false, // Tracks the state of the star
+      emptyStar: 'https://www.svgrepo.com/show/533052/star.svg', // URL for the empty star image
+      filledStar: 'https://www.svgrepo.com/show/472830/star-filled.svg', // URL for the filled star image
     };
   },
   mounted() {
@@ -55,9 +61,12 @@ export default {
     },
     clearSearch() {
       this.searchQuery = "";
-      this.$refs.searchInput.value = "";
+      this.$refs.searchInput.focus(); // Focus on the input after clearing
       this.autocomplete.setBounds(null);
       this.$emit('search-cleared');
+    },
+    toggleStar() {
+      this.isStarFilled = !this.isStarFilled; // Toggle the state of the star
     },
   },
 };
@@ -73,15 +82,22 @@ export default {
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 10px 16px; /* Symmetrical padding on both sides */
+  padding: 10px 16px; /* Adjusted padding for symmetry */
+}
+
+.star-icon {
+  cursor: pointer;
+  width: 24px; /* Set the size of the star icon */
+  height: 24px; /* Set the size of the star icon */
+  margin-right: 8px; /* Space between star icon and input */
 }
 
 .search-input {
   flex-grow: 1;
-  padding-right: 50px; /* Add right padding to prevent text overlap */
   border: none;
   border-radius: 20px;
   outline: none;
+  padding-left: 32px; /* Added padding to make space for the star icon */
 }
 
 .clear-text {
