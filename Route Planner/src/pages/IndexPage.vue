@@ -1,6 +1,7 @@
 <template>
   <StartAddress v-model="startAddress" />
-  <EndAddress v-model="endAddress" />
+  <EndAddress v-model="endAddress" :isVisible="!checkbox"/>
+  <Checkbox v-model="checkbox"/>
   <br><br>
   <div class="route-text">Enter Route:</div>
   <q-page class="flex">
@@ -14,19 +15,22 @@ import { defineComponent, ref } from 'vue'
 import MultipleAddressSearch from 'src/components/MultipleAddressSearch.vue';
 import StartAddress from 'src/components/StartAddress.vue';
 import EndAddress from 'src/components/EndAddress.vue';
+import Checkbox from 'src/components/Checkbox.vue';
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
     MultipleAddressSearch,
     StartAddress,
-    EndAddress
+    EndAddress,
+    Checkbox
   },
   setup() {
     const startAddress = ref('');
     const endAddress = ref('');
+    const checkbox = ref(false); // Define the reactive property for checkbox
 
-    return { startAddress, endAddress };
+    return { startAddress, endAddress, checkbox };
   }
 })
 </script>

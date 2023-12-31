@@ -12,8 +12,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.history-page {
-  /* Your styles for the history page go here */
-}
-</style>
