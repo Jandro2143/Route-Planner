@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar class="centered-toolbar">
         <q-toolbar-title class="centered-title">
-          Route Planner
+          Waypoint Wizard
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -18,6 +18,8 @@
         <q-btn flat label="History" @click="goToHistory"></q-btn>
         <div class="separator"></div> <!-- Separator line -->
         <q-btn flat label="Plan Route" @click="goToPlanRoute"></q-btn>
+        <div class="separator"></div> <!-- Additional Separator for Settings -->
+        <q-btn flat label="Settings" @click="goToSettings"></q-btn> <!-- Settings Button -->
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -39,7 +41,11 @@ export default defineComponent({
     };
 
     const goToPlanRoute = () => {
-      router.push('/#');
+      router.push('/IndexPage');
+    };
+
+    const goToSettings = () => {
+      router.push('/settings');
     };
 
     return {
@@ -50,6 +56,7 @@ export default defineComponent({
       },
       goToHistory,
       goToPlanRoute,
+      goToSettings,
     };
   }
 })
