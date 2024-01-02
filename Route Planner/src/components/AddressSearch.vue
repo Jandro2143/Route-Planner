@@ -1,6 +1,5 @@
 <template>
   <div class="search-box">
-    <!-- Star icon that toggles between filled and unfilled -->
     <img
       :src="isStarFilled ? filledStar : emptyStar"
       @click="toggleStar"
@@ -12,61 +11,70 @@
       class="search-input"
       type="text"
       placeholder="Enter a destination"
-      v-model="searchQuery"
+      :value="searchQuery"
       @input="onInput"
     />
-    <!-- Clear text -->
     <span v-if="searchQuery" class="clear-text" @click="clearSearch">Clear</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AddressSearch",
+  props: {
+    value: String,
+  },
   data() {
     return {
-      searchQuery: "",
+      searchQuery: this.value,
       autocomplete: null,
-      isStarFilled: false, // Tracks the state of the star
-      emptyStar: 'https://www.svgrepo.com/show/533052/star.svg', // URL for the empty star image
-      filledStar: 'https://www.svgrepo.com/show/472830/star-filled.svg', // URL for the filled star image
+      isStarFilled: false,
+      emptyStar: 'https://www.svgrepo.com/show/533052/star.svg',
+      filledStar: 'https://www.svgrepo.com/show/472830/star-filled.svg',
     };
+  },
+  watch: {
+    value(newVal) {
+      if (newVal !== this.searchQuery) {
+        this.searchQuery = newVal;
+      }
+    },
   },
   mounted() {
     this.initAutocomplete();
   },
   methods: {
     initAutocomplete() {
-      // Ensure the Google Maps API script has been loaded
       if (window.google && window.google.maps && window.google.maps.places) {
         this.autocomplete = new google.maps.places.Autocomplete(
           this.$refs.searchInput,
           { types: ['geocode'] }
         );
-
-        this.autocomplete.addListener('place_changed', () => {
-          const place = this.autocomplete.getPlace();
-          if (!place.geometry) {
-            console.log("Returned place contains no geometry");
-            return;
-          }
-          this.$emit('place-changed', place);
-        });
+        this.autocomplete.addListener('place_changed', this.onPlaceChanged);
       } else {
         console.error('Google Maps API script not loaded!');
       }
     },
-    onInput() {
-      // Handle input event
+    onInput(event) {
+      this.searchQuery = event.target.value;
+      this.$emit('input', this.searchQuery);
+    },
+    onPlaceChanged() {
+      const place = this.autocomplete.getPlace();
+      if (place && place.geometry) {
+        this.searchQuery = place.formatted_address;
+        this.$emit('input', place.formatted_address);
+      }
     },
     clearSearch() {
       this.searchQuery = "";
-      this.$refs.searchInput.focus(); // Focus on the input after clearing
-      this.autocomplete.setBounds(null);
-      this.$emit('search-cleared');
+      this.$emit('input', '');
+      this.$refs.searchInput.focus();
+      if (this.autocomplete) {
+        this.autocomplete.setBounds(null);
+      }
     },
     toggleStar() {
-      this.isStarFilled = !this.isStarFilled; // Toggle the state of the star
+      this.isStarFilled = !this.isStarFilled;
     },
   },
 };

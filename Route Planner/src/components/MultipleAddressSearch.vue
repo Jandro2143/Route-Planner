@@ -1,11 +1,17 @@
 <template>
   <div class="multiple-address-search">
-    <div v-for="box in searchBoxes" :key="box.id" class="search-box-wrapper">
+    <div v-for="(box, index) in searchBoxes" :key="box.id" class="search-box-wrapper">
       <address-search
-        :placeholder="`Enter destination ${box.id}`"
-        v-model="box.address"
+        :placeholder="`Enter destination #${index + 1}`"
+        :value="box.address"
+        @input="event => updateAddress(event, index)"
       />
-      <img src="https://www.svgrepo.com/show/522183/minus-circle.svg" alt="Remove" @click="removeSearchBox(box.id)" class="remove-button" />
+      <img
+        src="https://www.svgrepo.com/show/522183/minus-circle.svg"
+        alt="Remove"
+        @click="removeSearchBox(index)"
+        class="remove-button"
+      />
     </div>
     <div class="add-box" @click="addSearchBox">
       Add Stop
@@ -27,36 +33,30 @@ export default {
   data() {
     return {
       searchBoxes: [{ id: this.generateUniqueId(), address: '' }],
+      uniqueIdCounter: 0,
     };
   },
   methods: {
     addSearchBox() {
       this.searchBoxes.push({ id: this.generateUniqueId(), address: '' });
     },
-    removeSearchBox(id) {
-      const indexToRemove = this.searchBoxes.findIndex(box => box.id === id);
-      if (indexToRemove !== -1) {
-        this.searchBoxes.splice(indexToRemove, 1);
+    removeSearchBox(index) {
+      this.searchBoxes.splice(index, 1);
+    },
+    updateAddress(event, index) {
+      if (event && event.target && event.target.value !== undefined) {
+        this.searchBoxes[index].address = event.target.value;
       }
     },
     generateUniqueId() {
-      return Date.now() + Math.random().toString(36).substr(2, 9);
+      return `id-${++this.uniqueIdCounter}`;
     },
     emitGenerateRoute() {
       this.$emit('route-generated', this.searchBoxes.map(box => box.address));
     },
   },
-  watch: {
-    searchBoxes: {
-      deep: true,
-      handler() {
-        this.$emit('waypoints-updated', this.searchBoxes.map(box => box.address));
-      }
-    }
-  },
 };
 </script>
-
 
 <style scoped>
 .multiple-address-search {
@@ -91,7 +91,7 @@ export default {
   color: white;
   font-weight: bold;
   text-transform: uppercase;
-  width: 100%; /* Ensure full width */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  width: 100%;
+  box-sizing: border-box;
 }
 </style>
