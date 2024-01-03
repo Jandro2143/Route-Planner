@@ -18,6 +18,10 @@
       </div>
 
       <button type="submit">Register</button>
+      <p>
+        Already have an account?
+        <router-link to="/signin">Sign In</router-link>
+      </p>
     </form>
   </div>
 </template>
@@ -33,12 +37,20 @@ export default {
     };
   },
   methods: {
-    onRegister() {
-      // Registration logic goes here
+    async onRegister() {
       console.log('Registering', this.email, this.password, this.confirmPassword);
-      // Perform validation, send data to server, handle the response, etc.
 
+      // Basic validation for demonstration purposes
+      if (this.password !== this.confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
 
+      // TODO: Replace with actual registration logic
+      // Example: send a request to your backend or AWS Cognito
+
+      // Assuming registration is successful, redirect to the sign-in page
+      this.$router.push({ path: '/signin' });
     },
   },
 };

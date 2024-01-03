@@ -12,8 +12,8 @@
       <router-view />
     </q-page-container>
 
-    <!-- Footer with Centered and Separated Buttons -->
-    <q-footer elevated>
+    <!-- Conditional Rendering of Footer -->
+    <q-footer elevated v-if="showFooter">
       <q-toolbar class="footer-toolbar">
         <q-btn flat label="History" @click="goToHistory"></q-btn>
         <div class="separator"></div> <!-- Separator line -->
@@ -26,16 +26,16 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'MainLayout',
   setup () {
     const router = useRouter();
+    const route = useRoute();
     const leftDrawerOpen = ref(false);
 
-    // Methods for button actions
     const goToHistory = () => {
       router.push('/history');
     };
@@ -48,15 +48,19 @@ export default defineComponent({
       router.push('/settings');
     };
 
+    // Computed property to determine if the footer should be shown
+    const showFooter = computed(() => {
+      // Use the route path for checking
+      const noFooterPaths = ['/signin', '/register'];
+      return !noFooterPaths.includes(route.path);
+    });
+
     return {
-      essentialLinks: [],
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
       goToHistory,
       goToPlanRoute,
       goToSettings,
+      showFooter,
     };
   }
 })
@@ -73,7 +77,6 @@ export default defineComponent({
   text-align: center;
 }
 
-/* Style for the footer */
 .footer-toolbar {
   display: flex;
   justify-content: center;

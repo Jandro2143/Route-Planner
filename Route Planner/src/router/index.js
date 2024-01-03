@@ -1,6 +1,11 @@
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
+import Auth from "aws-amplify"
+import awsmobile from 'src/aws-exports'
+import "@aws-amplify/ui-react"
+
+Auth.configure(awsmobile)
 
 /*
  * If not building with SSR mode, you can

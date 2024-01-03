@@ -1,17 +1,18 @@
 <template>
   <StartAddress v-model="startAddress" />
-  <EndAddress v-model="endAddress" :isVisible="!checkbox"/>
-  <Checkbox v-model="checkbox"/>
+  <!-- Conditionally render EndAddress based on checkbox state -->
+  <EndAddress v-if="!checkbox.value" v-model="endAddress" />
+  <!-- Checkbox input -->
+  <Checkbox v-model="checkbox" />
   <br><br>
   <div class="route-text">Enter Route:</div>
   <q-page class="flex">
     <multiple-address-search />
-    <!-- Include the MultipleAddressSearch component here -->
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue';
 import MultipleAddressSearch from 'src/components/MultipleAddressSearch.vue';
 import StartAddress from 'src/components/StartAddress.vue';
 import EndAddress from 'src/components/EndAddress.vue';
@@ -28,7 +29,7 @@ export default defineComponent({
   setup() {
     const startAddress = ref('');
     const endAddress = ref('');
-    const checkbox = ref(false); // Define the reactive property for checkbox
+    const checkbox = ref(false);
 
     return { startAddress, endAddress, checkbox };
   }

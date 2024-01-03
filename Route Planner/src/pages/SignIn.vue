@@ -1,20 +1,10 @@
 <template>
   <div class="sign-in-container">
     <h2>Sign In</h2>
-    <form @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required>
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" required>
-      </div>
-
-      <button type="submit">Sign In</button>
-    </form>
-    <p>
+    <div class="SignInPage">
+      <authenticator />
+    </div>
+      <p>
       Don't have an account?
       <router-link to="/register">Register</router-link>
     </p>
@@ -22,8 +12,13 @@
 </template>
 
 <script>
+import {Authenticator} from "@aws-amplify/ui-react"
+
 export default {
   name: 'SignInPage',
+  components:{
+    Authenticator
+  },
   data() {
     return {
       email: '',
@@ -31,10 +26,12 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      // Here you would typically send the data to your server for authentication
+    async onSubmit() {
       console.log('Submitted', this.email, this.password);
-      // You might want to redirect the user or show a message after successful authentication
+      // Add your authentication logic here.
+      // For demonstration, let's assume the authentication is successful.
+      // Redirect to IndexPage after successful sign-in
+      this.$router.push({ path: 'IndexPage' });
     },
   },
 };

@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-waypointwizard-staging-234003-authRole",
+      "UnauthRoleArn": "arn:aws:iam::039007816391:role/amplify-waypointwizard-staging-234003-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::039007816391:role/amplify-waypointwizard-staging-234003-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-waypointwizard-staging-234003-deployment",
+      "UnauthRoleName": "amplify-waypointwizard-staging-234003-unauthRole",
+      "StackName": "amplify-waypointwizard-staging-234003",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:039007816391:stack/amplify-waypointwizard-staging-234003/40e86730-a9c8-11ee-b0f3-0a08bebed887",
+      "AmplifyAppId": "d1nviojna3kryn"
+    },
+    "categories": {
+      "auth": {
+        "WaypointWizard": {}
+      }
+    }
+  }
+}

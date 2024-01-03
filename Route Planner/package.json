@@ -13,8 +13,10 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^6.0.7",
     "@quasar/cli": "^2.3.0",
     "@quasar/extras": "^1.16.4",
+    "aws-amplify": "^6.0.9",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
